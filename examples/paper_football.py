@@ -30,29 +30,24 @@ broken5 = 0
 print "Press CTRL+Z to exit"
 
 while (True):
-    now = datetime.datetime.now()
-    hour = now.hour
-    minute = now.minute
-    second = now.second
-
     segment1.clear()
     segment2.clear()
     
     # Set hours
-    segment1.set_digit(0, int(hour / 10))     # Tens
-    segment1.set_digit(1, hour % 10)          # Ones
-    segment2.set_digit(0, int(hour / 10))     # Tens
-    segment2.set_digit(1, hour % 10)          # Ones
+    #segment1.set_digit(0, int(hour / 10))     # Tens
+    #segment1.set_digit(1, hour % 10)          # Ones
+    #segment2.set_digit(0, int(hour / 10))     # Tens
+    #segment2.set_digit(1, hour % 10)          # Ones
     
     # Set minutes
-    segment1.set_digit(2, int(minute / 10))   # Tens
-    segment1.set_digit(3, minute % 10)        # Ones
-    segment2.set_digit(2, int(minute / 10))   # Tens
-    segment2.set_digit(3, minute % 10)        # Ones
+    segment1.set_digit(2, 1))   # Tens
+    segment1.set_digit(3, 0)        # Ones
+    segment2.set_digit(2, 1)   # Tens
+    segment2.set_digit(3, 0)        # Ones
 
     # Toggle colon
-    segment1.set_colon(second % 2)              # Toggle colon at 1Hz
-    segment2.set_colon(second % 2)              # Toggle colon at 1Hz
+    #segment1.set_colon(second % 2)              # Toggle colon at 1Hz
+    #segment2.set_colon(second % 2)              # Toggle colon at 1Hz
 
     # Write the display buffer to the hardware.  This must be called to
     # update the actual display LEDs.
@@ -60,7 +55,7 @@ while (True):
     segment2.write_display()
 
     # Wait a quarter second (less than 1 second to prevent colon blinking getting$
-    time.sleep(0.25)
+    #time.sleep(0.25)
 
     # ir sensors
     if not GPIO.input("P9_11"):

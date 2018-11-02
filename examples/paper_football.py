@@ -62,7 +62,7 @@ segment2.write_display()
 print "Press CTRL+Z to exit"
 
 while (True):
-    if GPIO.input("P9_26")
+    if GPIO.input("P9_26"):
         last = current
 
         if current:

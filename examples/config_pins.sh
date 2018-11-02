@@ -5,3 +5,4 @@ config-pin p9_12 gpio
 config-pin p9_13 gpio
 config-pin p9_14 gpio
 config-pin p9_15 gpio
+config-pin p9_26 gpio

@@ -68,7 +68,7 @@ while (True):
         else:
             current = 1
             print "Home Team's Turn"
-    else:
+    elif GPIO.input("P9_26"):
         pressed = 0
 
     if not GPIO.input("P9_11") or not GPIO.input("P9_15") or not GPIO.input("P9_13") or not GPIO.input("P9_14") or not GPIO.input("P9_16"):

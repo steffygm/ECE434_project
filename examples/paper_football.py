@@ -45,7 +45,7 @@ segment2.clear()
 # set each score to 00
 segment1.set_digit(2, 0)        # Tens
 segment1.set_digit(3, 0)        # Ones
-segment1.set_digit(2, 0)        # Tens
+segment2.set_digit(2, 0)        # Tens
 segment2.set_digit(3, 0)        # Ones
 
 # write to displays

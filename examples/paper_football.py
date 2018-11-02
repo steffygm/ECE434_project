@@ -12,6 +12,9 @@ GPIO.setup("P9_14", GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup("P9_15", GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup("P9_16", GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+# init pin for button/switch
+GPIO.setup("P9_26", GPIO.IN)
+
 # setup variables to control 7 segment displays
 segment1 = SevenSegment.SevenSegment(address=0x70)
 segment2 = SevenSegment.SevenSegment(address=0x71)
@@ -31,6 +34,10 @@ broken5 = 0
 # variables to track players scores
 home_score = 0
 away_score = 0
+
+# variable to track current player: 1 = home, 0 = away
+current = 1
+last = 0
 
 #segment.set_digit(0, 1) # set tens digits of left side of display to 1
 #segment.set_digit(1, 1) # set ones digits of left side of display to 1
@@ -55,10 +62,17 @@ segment2.write_display()
 print "Press CTRL+Z to exit"
 
 while (True):
+    if GPIO.input("P9_26")
+        last = current
+
+        if current:
+            current = 0
+        else:
+            current = 1
+
     if not GPIO.input("P9_11") or not GPIO.input("P9_15") or not GPIO.input("P9_13") or not GPIO.input("P9_14") or not GPIO.input("P9_16"):
-        if not any_broken:
-            any_broken = 1
-            print("Borken")
+        if last != current :
+            last = current
 
             home_score += 6
             away_score += 6
@@ -72,7 +86,4 @@ while (True):
             segment2.set_digit(3, away_score % 10) 
 
             segment1.write_display()
-            segment2.write_display() 
-
-    else:
-        any_broken = 0
+            segment2.write_display()

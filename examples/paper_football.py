@@ -32,23 +32,27 @@ broken5 = 0
 home_score = 0
 away_score = 0
 
-print "Press CTRL+Z to exit"
-
 #segment.set_digit(0, 1) # set tens digits of left side of display to 1
 #segment.set_digit(1, 1) # set ones digits of left side of display to 1
 #segment.set_digit(2, 1) # set tens digits of right side of display to 1
 #segment.set_digit(3, 1) # set ones digits of right side of display to 1
 #segment.set_colon(freq) # set colon at freq
 
-# set both scores to 0
+# clear displays
 segment1.clear()
 segment2.clear()
 
-# set each score to 10
+# set each score to 00
 segment1.set_digit(2, 0)        # Tens
 segment1.set_digit(3, 0)        # Ones
 segment1.set_digit(2, 0)        # Tens
 segment2.set_digit(3, 0)        # Ones
+
+# write to displays
+segment1.write_display()
+segment2.write_display() 
+
+print "Press CTRL+Z to exit"
 
 while (True):
     if not GPIO.input("P9_11") or not GPIO.input("P9_15") or not GPIO.input("P9_13") or not GPIO.input("P9_14") or not GPIO.input("P9_16"):

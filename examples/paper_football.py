@@ -23,13 +23,8 @@ segment2 = SevenSegment.SevenSegment(address=0x71)
 segment1.begin()
 segment2.begin()
 
-# setup variables for detecting if an ir beam has been broken
-any_broken = 0
-broken1 = 0
-broken2 = 0
-broken3 = 0
-broken4 = 0
-broken5 = 0
+# variable to track button press
+pressed = 0
 
 # variables to track players scores
 home_score = 0
@@ -62,7 +57,9 @@ segment2.write_display()
 print "Press CTRL+Z to exit"
 
 while (True):
-    if GPIO.input("P9_26"):
+    if GPIO.input("P9_26") and pressed == 1:
+        pressed = 1
+
         last = current
 
         if current:
@@ -71,6 +68,8 @@ while (True):
         else:
             current = 1
             print "Home Team's Turn"
+    else:
+        pressed = 0
 
     if not GPIO.input("P9_11") or not GPIO.input("P9_15") or not GPIO.input("P9_13") or not GPIO.input("P9_14") or not GPIO.input("P9_16"):
         if last != current :

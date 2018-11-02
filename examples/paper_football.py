@@ -68,5 +68,5 @@ while (True):
             segment1.write_display()
             segment2.write_display() 
 
-    else
+    else:
         any_broken = 0

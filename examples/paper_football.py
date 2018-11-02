@@ -40,7 +40,7 @@ while (True):
     #segment2.set_digit(1, hour % 10)          # Ones
     
     # Set minutes
-    segment1.set_digit(2, 1))   # Tens
+    segment1.set_digit(2, 1)   # Tens
     segment1.set_digit(3, 0)        # Ones
     segment2.set_digit(2, 1)   # Tens
     segment2.set_digit(3, 0)        # Ones

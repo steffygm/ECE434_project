@@ -67,23 +67,27 @@ while (True):
 
         if current:
             current = 0
+            print "Away Team's Turn"
         else:
             current = 1
+            print "Home Team's Turn"
 
     if not GPIO.input("P9_11") or not GPIO.input("P9_15") or not GPIO.input("P9_13") or not GPIO.input("P9_14") or not GPIO.input("P9_16"):
         if last != current :
             last = current
 
-            home_score += 6
-            away_score += 6
+            if current == 1:
+                print "Home Team Scored"
+                home_score += 6
+                segment2.clear()
+                segment2.set_digit(2, int(home_score / 10))
+                segment2.set_digit(3, home_score % 10) 
+                segment2.write_display()
 
-            segment1.clear()
-            segment2.clear()
-
-            segment1.set_digit(2, int(home_score / 10))
-            segment1.set_digit(3, home_score % 10)
-            segment2.set_digit(2, int(away_score / 10))
-            segment2.set_digit(3, away_score % 10) 
-
-            segment1.write_display()
-            segment2.write_display()
+            else:
+                print "Away Team Scored"
+                away_score += 6
+                segment1.clear()
+                segment1.set_digit(2, int(away_score / 10))
+                segment1.set_digit(3, away_score % 10)
+                segment1.write_display()

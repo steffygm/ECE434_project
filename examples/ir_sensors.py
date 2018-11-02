@@ -22,21 +22,21 @@ while 1:
         else:
                 broken1 = 0
         
-        if not GPIO.input("P9_13"):
+        if not GPIO.input("P9_14"):
                 if not broken2:
                         broken2 = 1
                         print("Broken2")
         else:
                 broken2 = 0
 
-        if not GPIO.input("P9_14"):
+        if not GPIO.input("P9_15"):
                 if not broken3:
                         broken3 = 1
                         print("Broken3")
         else:
                 broken3 = 0
         
-        if not GPIO.input("P9_15"):
+        if not GPIO.input("P9_13"):
                 if not broken4:
                         broken4 = 1
                         print("Broken4")

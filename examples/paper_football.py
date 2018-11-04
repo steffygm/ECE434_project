@@ -1,16 +1,12 @@
 #!/usr/bin/python3
 
+# ECE434
+# Russell Johnson & Griffin Steffy
+
 import time
 import datetime
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_LED_Backpack import SevenSegment
-
-# init pins for ir sensors
-GPIO.setup("P9_11", GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup("P9_13", GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup("P9_14", GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup("P9_15", GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup("P9_16", GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # init pin for button/switch
 GPIO.setup("P9_26", GPIO.IN)
@@ -23,9 +19,6 @@ segment2 = SevenSegment.SevenSegment(address=0x71)
 segment1.begin()
 segment2.begin()
 
-# variable to track button press
-pressed = 0
-
 # variables to track players scores
 home_score = 0
 away_score = 0
@@ -34,46 +27,37 @@ away_score = 0
 current = 1
 last = 0
 
+# zeros to fill in for scores on displays
+zeros = {
+    0 : "0000",
+    1 : "000",
+    2 : "00",
+    3 : "0",
+    4 : ""
+}
+
+# 7 segment control examples
 #segment.set_digit(0, 1) # set tens digits of left side of display to 1
 #segment.set_digit(1, 1) # set ones digits of left side of display to 1
 #segment.set_digit(2, 1) # set tens digits of right side of display to 1
 #segment.set_digit(3, 1) # set ones digits of right side of display to 1
 #segment.set_colon(freq) # set colon at freq
 
-# clear displays
-segment1.clear()
-segment2.clear()
-
-# set each score to 0000
-segment1.set_digit(0, 0)        # Tens
-segment1.set_digit(1, 0)        # Ones
-segment1.set_digit(2, 0)        # Tens
-segment1.set_digit(3, 0)        # Ones
-segment2.set_digit(0, 0)        # Tens
-segment2.set_digit(1, 0)        # Ones
-segment2.set_digit(2, 0)        # Tens
-segment2.set_digit(3, 0)        # Ones
-
-# write to displays
-segment1.write_display()
-segment2.write_display() 
-
-print "Press CTRL+Z to exit"
-
 def ir_broken(channel):
     global last, current, home_score, away_score, segment1, segment2
     if last != current :
         last = current
 
+        # Home
         if current == 1:
             print "Home Team Scored"
+
+            # Update score and convert to a string
             home_score += 10
             score_str = str(home_score)
-            if len(score_str) < 3:
-                score_str = "00" + score_str
-            elif len(score_str) < 4:
-                score_str = "0" + score_str
+            score_str = zeros[len(score_str)] + score_str
 
+            # display score to Home's display
             segment2.clear()
             segment2.set_digit(0, int(score_str[0]))
             segment2.set_digit(1, int(score_str[1]))
@@ -81,15 +65,16 @@ def ir_broken(channel):
             segment2.set_digit(3, int(score_str[3])) 
             segment2.write_display()
 
+        # Away
         else:
             print "Away Team Scored"
+
+            # Update score and convert to a string
             away_score += 10
             score_str = str(away_score)
-            if len(score_str) < 3:
-                score_str = "00" + score_str
-            elif len(score_str) < 4:
-                score_str = "0" + score_str
+            score_str = zeros[len(score_str)] + score_str
 
+            # display score to Away's display
             segment1.clear()
             segment1.set_digit(0, int(score_str[0]))
             segment1.set_digit(1, int(score_str[1]))
@@ -108,17 +93,62 @@ def btn_press(channel):
         current = 1
         print "Home Team's Turn"
     
-GPIO.add_event_detect("P9_11", GPIO.FALLING, callback=ir_broken)
-GPIO.add_event_detect("P9_13", GPIO.FALLING, callback=ir_broken)
-GPIO.add_event_detect("P9_14", GPIO.FALLING, callback=ir_broken)
-GPIO.add_event_detect("P9_15", GPIO.FALLING, callback=ir_broken)
-GPIO.add_event_detect("P9_16", GPIO.FALLING, callback=ir_broken)
-GPIO.add_event_detect("P9_26", GPIO.RISING, callback=btn_press, bouncetime=200)
+def reset():
+    global segment1, segment2, current, last, home_score, away_score
 
+    # clear displays
+    segment1.clear()
+    segment2.clear()
 
-def main():        
-    # empty
+    # set each score to 0000
+    segment1.set_digit(0, 0)        # Tens
+    segment1.set_digit(1, 0)        # Ones
+    segment1.set_digit(2, 0)        # Tens
+    segment1.set_digit(3, 0)        # Ones
+    segment2.set_digit(0, 0)        # Tens
+    segment2.set_digit(1, 0)        # Ones
+    segment2.set_digit(2, 0)        # Tens
+    segment2.set_digit(3, 0)        # Ones
+
+    # write to displays
+    segment1.write_display()
+    segment2.write_display()
+
+    # reset scoring variables
+    current = 1
+    last = 0
+    home_score = 0
+    away_score = 0
+
+def main():   
+    # init pins for ir sensors
+    GPIO.setup("P9_11", GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup("P9_13", GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup("P9_14", GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup("P9_15", GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup("P9_16", GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+
+    # init pins for buttons
+    GPIO.setup("P9_26", GPIO.IN) 
+    GPIO.setup("P9_27", GPIO.IN)   
+
+    reset()
+
+    # setup interrupts for IR sensors
+    GPIO.add_event_detect("P9_11", GPIO.FALLING, callback=ir_broken)
+    GPIO.add_event_detect("P9_13", GPIO.FALLING, callback=ir_broken)
+    GPIO.add_event_detect("P9_14", GPIO.FALLING, callback=ir_broken)
+    GPIO.add_event_detect("P9_15", GPIO.FALLING, callback=ir_broken)
+    GPIO.add_event_detect("P9_16", GPIO.FALLING, callback=ir_broken)
+
+    # setup interrupts for buttons
+    GPIO.add_event_detect("P9_26", GPIO.RISING, callback=btn_press, bouncetime=200)
+    GPIO.add_event_detect("P9_27", GPIO.RISING, callback=reset, bouncetime=200)     
+
+    print "Press CTRL+Z to exit"
+    print ""
     print "Home Team's Turn"
+
     while(True):
-        test = 1
+        empty = 1
 main()

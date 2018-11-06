@@ -86,6 +86,7 @@ def btn_press(channel):
     global last, current
     last = current
 
+<<<<<<< HEAD
     if GPIO.input("P9_26"):
     	GPIO.output("P9_41", GPIO.HIGH)
 	GPIO.output("P9_42", GPIO.LOW)
@@ -96,6 +97,14 @@ def btn_press(channel):
         GPIO.output("P9_41", GPIO.LOW)
 	current = 1
 	print "Home Team's Turn"
+=======
+    if current:
+        current = 0
+        print "Away Team's Turn"
+    else:
+        current = 1
+        print "Home Team's Turn"
+>>>>>>> e4387002675048b6e713a591865fecbadce56c86
     
 def reset():
     global segment1, segment2, current, last, home_score, away_score
@@ -119,8 +128,13 @@ def reset():
     segment2.write_display()
 
     # reset scoring variables
+<<<<<<< HEAD
     btn_press(1)
 
+=======
+    current = 1
+    last = 0
+>>>>>>> e4387002675048b6e713a591865fecbadce56c86
     home_score = 0
     away_score = 0
 
@@ -136,11 +150,14 @@ def main():
     GPIO.setup("P9_26", GPIO.IN) 
     GPIO.setup("P9_27", GPIO.IN)   
 
+<<<<<<< HEAD
     GPIO.setup("P9_41", GPIO.OUT, pull_up_down=GPIO.PUD_UP)
     GPIO.setup("P9_42", GPIO.OUT, pull_up_down=GPIO.PUD_UP)
 
     print "Press CTRL+Z to exit"
     print ""
+=======
+>>>>>>> e4387002675048b6e713a591865fecbadce56c86
     reset()
 
     # setup interrupts for IR sensors
@@ -151,9 +168,22 @@ def main():
     GPIO.add_event_detect("P9_16", GPIO.FALLING, callback=ir_broken)
 
     # setup interrupts for buttons
+<<<<<<< HEAD
     GPIO.add_event_detect("P9_26", GPIO.BOTH, callback=btn_press, bouncetime=200)
     GPIO.add_event_detect("P9_27", GPIO.RISING, callback=reset, bouncetime=200)     
     
     while(True):
         empty = 1
 main()
+=======
+    GPIO.add_event_detect("P9_26", GPIO.RISING, callback=btn_press, bouncetime=200)
+    GPIO.add_event_detect("P9_27", GPIO.RISING, callback=reset, bouncetime=200)     
+
+    print "Press CTRL+Z to exit"
+    print ""
+    print "Home Team's Turn"
+
+    while(True):
+        empty = 1
+main()
+>>>>>>> e4387002675048b6e713a591865fecbadce56c86

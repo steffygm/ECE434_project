@@ -88,14 +88,14 @@ def btn_press(channel):
 
     if GPIO.input("P9_26"):
     	GPIO.output("P9_41", GPIO.HIGH)
-	GPIO.output("P9_42", GPIO.LOW)
+        GPIO.output("P9_42", GPIO.LOW)
         current = 0
     	print "Away Team's Turn"
     else:
-	GPIO.output("P9_42", GPIO.HIGH)
+        GPIO.output("P9_42", GPIO.HIGH)
         GPIO.output("P9_41", GPIO.LOW)
-	current = 1
-	print "Home Team's Turn"
+        current = 1
+        print "Home Team's Turn"
     
 def reset():
     global segment1, segment2, current, last, home_score, away_score
@@ -119,7 +119,18 @@ def reset():
     segment2.write_display()
 
     # reset scoring variables
-    btn_press(1)
+    if GPIO.input("P9_26"):
+        GPIO.output("P9_41", GPIO.HIGH)
+        GPIO.output("P9_42", GPIO.LOW)
+        last = 1
+        current = 0
+    	print "Away Team's Turn"
+    else:
+        GPIO.output("P9_42", GPIO.HIGH)
+        GPIO.output("P9_41", GPIO.LOW)
+        last = 0
+        current = 1
+        print "Home Team's Turn"
 
     home_score = 0
     away_score = 0

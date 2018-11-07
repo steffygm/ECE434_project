@@ -8,9 +8,6 @@ import datetime
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_LED_Backpack import SevenSegment
 
-# init pin for button/switch
-GPIO.setup("P9_26", GPIO.IN)
-
 # setup variables to control 7 segment displays
 segment1 = SevenSegment.SevenSegment(address=0x70)
 segment2 = SevenSegment.SevenSegment(address=0x71)

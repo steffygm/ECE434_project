@@ -3,6 +3,7 @@
 # ECE434
 # Russell Johnson & Griffin Steffy
 
+import sys
 import time
 import datetime
 import Adafruit_BBIO.GPIO as GPIO
@@ -147,7 +148,7 @@ def main():
     GPIO.setup("P9_41", GPIO.OUT, pull_up_down=GPIO.PUD_UP)
     GPIO.setup("P9_42", GPIO.OUT, pull_up_down=GPIO.PUD_UP)
 
-    print "Press CTRL+Z to exit"
+    print "Press CTRL+C to exit"
     print ""
 
     reset()
@@ -165,4 +166,9 @@ def main():
     
     while(True):
         empty = 1
-main()
+
+try:
+    main()
+except KeyboardInterrupt:
+    print "Program Exiting"
+    sys.exit(0)

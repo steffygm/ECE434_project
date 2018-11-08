@@ -3,13 +3,11 @@
 # ECE434
 # Russell Johnson & Griffin Steffy
 
+import sys
 import time
 import datetime
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_LED_Backpack import SevenSegment
-
-# init pin for button/switch
-GPIO.setup("P9_26", GPIO.IN)
 
 # setup variables to control 7 segment displays
 segment1 = SevenSegment.SevenSegment(address=0x70)
@@ -150,7 +148,7 @@ def main():
     GPIO.setup("P9_41", GPIO.OUT, pull_up_down=GPIO.PUD_UP)
     GPIO.setup("P9_42", GPIO.OUT, pull_up_down=GPIO.PUD_UP)
 
-    print "Press CTRL+Z to exit"
+    print "Press CTRL+C to exit"
     print ""
 
     reset()
@@ -168,4 +166,9 @@ def main():
     
     while(True):
         empty = 1
-main()
+
+try:
+    main()
+except KeyboardInterrupt:
+    print "Program Exiting"
+    sys.exit(0)

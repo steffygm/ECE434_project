@@ -9,7 +9,7 @@ scriptcall = './image 0.jpg'
 for t in range(1,31):
     filename = str(31-t)+'.jpg'
     print(filename)
-    scriptcall = './image.sh '+ '../countdown_pictures/filename'
+    scriptcall = './image.sh '+ '../countdown_pictures/' + filename
     os.system(scriptcall)
     os.system('sleep 1')
 print('Turning off LCD')

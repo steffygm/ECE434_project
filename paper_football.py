@@ -84,7 +84,7 @@ def btn_press(channel):
     global last, current
     last = current
 
-    if GPIO.input("P9_26"):
+    if GPIO.input("P8_40"):
     	GPIO.output("P9_41", GPIO.HIGH)
         GPIO.output("P9_42", GPIO.LOW)
         current = 0
@@ -95,7 +95,7 @@ def btn_press(channel):
         current = 1
         print "Home Team's Turn"
     
-def reset():
+def reset(channel):
     global segment1, segment2, current, last, home_score, away_score
 
     # clear displays
@@ -117,7 +117,7 @@ def reset():
     segment2.write_display()
 
     # reset scoring variables
-    if GPIO.input("P9_26"):
+    if GPIO.input("P8_40"):
         GPIO.output("P9_41", GPIO.HIGH)
         GPIO.output("P9_42", GPIO.LOW)
         last = 1
@@ -139,10 +139,10 @@ def main():
     GPIO.setup("P9_13", GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup("P9_14", GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup("P9_15", GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup("P9_16", GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+    GPIO.setup("P8_41", GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 
     # init pins for buttons
-    GPIO.setup("P9_26", GPIO.IN) 
+    GPIO.setup("P8_40", GPIO.IN) 
     GPIO.setup("P9_27", GPIO.IN)   
 
     GPIO.setup("P9_41", GPIO.OUT, pull_up_down=GPIO.PUD_UP)
@@ -151,17 +151,17 @@ def main():
     print "Press CTRL+C to exit"
     print ""
 
-    reset()
+    reset(1)
 
     # setup interrupts for IR sensors
     GPIO.add_event_detect("P9_11", GPIO.FALLING, callback=ir_broken)
     GPIO.add_event_detect("P9_13", GPIO.FALLING, callback=ir_broken)
     GPIO.add_event_detect("P9_14", GPIO.FALLING, callback=ir_broken)
     GPIO.add_event_detect("P9_15", GPIO.FALLING, callback=ir_broken)
-    GPIO.add_event_detect("P9_16", GPIO.FALLING, callback=ir_broken)
+    GPIO.add_event_detect("P8_41", GPIO.FALLING, callback=ir_broken)
 
     # setup interrupts for buttons
-    GPIO.add_event_detect("P9_26", GPIO.BOTH, callback=btn_press, bouncetime=200)
+    GPIO.add_event_detect("P8_40", GPIO.BOTH, callback=btn_press, bouncetime=200)
     GPIO.add_event_detect("P9_27", GPIO.RISING, callback=reset, bouncetime=200)     
     
     while(True):

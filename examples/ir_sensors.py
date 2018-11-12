@@ -6,7 +6,7 @@ GPIO.setup("P9_11", GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup("P9_13", GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup("P9_14", GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup("P9_15", GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup("P9_16", GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup("P8_41", GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 broken1 = 0
 broken2 = 0

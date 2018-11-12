@@ -16,4 +16,4 @@ config-pin p9_41 gpio
 config-pin p9_42 gpio
 config-pin p9_27 gpio
 config-pin p8_40 gpio
-config-pin p8_41 gpio
+config-pin p8_39 gpio

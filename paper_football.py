@@ -4,10 +4,15 @@
 # Russell Johnson & Griffin Steffy
 
 import sys
+import os
 import time
 import datetime
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_LED_Backpack import SevenSegment
+
+# Turn on the Jumbotron
+os.system('./jumbotron_images/on.sh')
+
 
 # setup variables to control 7 segment displays
 segment1 = SevenSegment.SevenSegment(address=0x70)
@@ -171,4 +176,6 @@ try:
     main()
 except KeyboardInterrupt:
     print "Program Exiting"
+    os.system('./jumbotron_images/off.sh')
+    os.system('sleep 2')
     sys.exit(0)

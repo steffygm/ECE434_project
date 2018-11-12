@@ -54,6 +54,7 @@ def ir_broken(channel):
         # Home
         if current == 1:
             print "Home Team Scored"
+            os.system('./jumbotron_images/push_image.sh ./jumbotron_images/good.png')
 
             # Update score and convert to a string
             home_score += 10
@@ -71,6 +72,7 @@ def ir_broken(channel):
         # Away
         else:
             print "Away Team Scored"
+            os.system('./jumbotron_images/push_image.sh ./jumbotron_images/good.png')
 
             # Update score and convert to a string
             away_score += 10
@@ -94,11 +96,13 @@ def btn_press(channel):
         GPIO.output("P9_42", GPIO.LOW)
         current = 0
     	print "Away Team's Turn"
+        os.system('./jumbotron_images/push_image.sh ./jumbotron_images/away.png')
     else:
         GPIO.output("P9_42", GPIO.HIGH)
         GPIO.output("P9_41", GPIO.LOW)
         current = 1
         print "Home Team's Turn"
+        os.system('./jumbotron_images/push_image.sh ./jumbotron_images/home.png')
     
 def reset(channel):
     global segment1, segment2, current, last, home_score, away_score

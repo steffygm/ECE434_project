@@ -13,7 +13,6 @@ from Adafruit_LED_Backpack import SevenSegment
 # Turn on the Jumbotron
 os.system('./jumbotron_images/on.sh')
 
-
 # setup variables to control 7 segment displays
 segment1 = SevenSegment.SevenSegment(address=0x70)
 segment2 = SevenSegment.SevenSegment(address=0x71)
@@ -95,12 +94,14 @@ def btn_press(channel):
     	GPIO.output("P9_41", GPIO.HIGH)
         GPIO.output("P9_42", GPIO.LOW)
         current = 0
-    	print "Away Team's Turn"
+    	last = 1
+	print "Away Team's Turn"
         os.system('./jumbotron_images/push_image.sh ./jumbotron_images/away.png')
     else:
         GPIO.output("P9_42", GPIO.HIGH)
         GPIO.output("P9_41", GPIO.LOW)
         current = 1
+	last = 0
         print "Home Team's Turn"
         os.system('./jumbotron_images/push_image.sh ./jumbotron_images/home.png')
     
@@ -132,12 +133,14 @@ def reset(channel):
         last = 1
         current = 0
     	print "Away Team's Turn"
+	os.system('./jumbotron_images/push_image.sh ./jumbotron_images/away.png')
     else:
         GPIO.output("P9_42", GPIO.HIGH)
         GPIO.output("P9_41", GPIO.LOW)
         last = 0
         current = 1
         print "Home Team's Turn"
+	os.system('./jumbotron_images/push_image.sh ./jumbotron_images/home.png')
 
     home_score = 0
     away_score = 0
@@ -179,7 +182,13 @@ def main():
 try:
     main()
 except KeyboardInterrupt:
-    print "Program Exiting"
+    print "\nProgram Exiting"
+    segment1.clear()
+    segment2.clear()
+    segment1.write_display()
+    segment2.write_display()
+    GPIO.output("P9_41", GPIO.LOW)
+    GPIO.output("P9_42", GPIO.LOW)
     os.system('./jumbotron_images/off.sh')
     os.system('sleep 2')
     sys.exit(0)
